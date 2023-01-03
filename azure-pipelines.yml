@@ -12,12 +12,15 @@ pool:
 steps:
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
-- task: DownloadGitHubRelease@0
+- task: GitHubRelease@1
   inputs:
-    connection: 'praveenrentachintala'
-    userRepository: 'praveenrentachintala/sample-web-application'
-    defaultVersionType: 'latest'
-    downloadPath: '$(System.ArtifactsDirectory)'
+    gitHubConnection: 'praveenrentachintala'
+    repositoryName: 'praveenrentachintala/sample-web-application'
+    action: 'create'
+    target: '$(Build.SourceVersion)'
+    tagSource: 'gitTag'
+    changeLogCompareToRelease: 'lastFullRelease'
+    changeLogType: 'commitBased'
 - task: Maven@4
   inputs:
     mavenPomFile: 'pom.xml'
